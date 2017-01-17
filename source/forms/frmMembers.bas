@@ -11,10 +11,10 @@ Begin Form
     Width =7653
     DatasheetFontHeight =11
     ItemSuffix =9
-    Left =3225
-    Top =2415
-    Right =24945
-    Bottom =14565
+    Left =5295
+    Top =2940
+    Right =13485
+    Bottom =10080
     DatasheetGridlinesColor =14806254
     RecSrcDt = Begin
         0x60d7bae5dddfe440
@@ -290,7 +290,6 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Compare Database
 
-
 Private Sub cmdShowBrothers_Click()
   Dim cntCurrentDB As ADODB.Connection
   Dim rsoMembers As ADODB.Recordset
@@ -307,9 +306,14 @@ Private Sub cmdShowBrothers_Click()
    Loop
    
    txtGroups.SetFocus
-   txtGroups.Text = strGroup
+   txtGroups.Text = random(50)
    
    Set rsoMembers = Nothing
    cntCurrentDB.Close
 
 End Sub
+
+Public Function random(recorCount As Integer) As Integer
+    Randomize
+    random = Int(recorCount * Rnd) + 1
+End Function

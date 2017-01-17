@@ -11,10 +11,10 @@ Begin Form
     Width =7653
     DatasheetFontHeight =11
     ItemSuffix =9
-    Left =5295
-    Top =2940
-    Right =13485
-    Bottom =10080
+    Left =4170
+    Top =2520
+    Right =12360
+    Bottom =9660
     DatasheetGridlinesColor =14806254
     RecSrcDt = Begin
         0x60d7bae5dddfe440
@@ -292,21 +292,51 @@ Option Compare Database
 
 Private Sub cmdShowBrothers_Click()
   Dim cntCurrentDB As ADODB.Connection
-  Dim rsoMembers As ADODB.Recordset
+  Dim rsoMembers As ADODB.recordset
   Dim strGroup As String
   
   'Instancia conexión a BD actual
    Set cntCurrentDB = CurrentProject.Connection
-   Set rsoMembers = New ADODB.Recordset
+   Set rsoMembers = New ADODB.recordset
    rsoMembers.Open "SELECT * FROM lstMembers", cntCurrentDB, adOpenKeyset, adLockOptimistic
    
-   Do Until rsoMembers.EOF = True
-    strGroup = strGroup & rsoMembers.Fields!FirstNameField & ", "
-    rsoMembers.MoveNext
-   Loop
+   Dim strm As ADODB.Stream
+   Set strm = New ADODB.Stream
+   rsoMembers.Save strm
+   Dim rsoCopy As ADODB.recordset
+   Set rsoCopy = New ADODB.recordset
+   rsoCopy.Open strm
    
-   txtGroups.SetFocus
-   txtGroups.Text = random(50)
+   Dim groupNumber As Integer
+   Dim groupMember As Integer
+   
+   groupNumber = 2
+   groupMember = 2
+   
+   Dim i, j, k, rd As Integer
+      
+   For i = 1 To groupNumber
+     For j = 1 To groupMember
+       k = 1
+       rd = random(rsoCopy.RecordCount)
+       rsoCopy.MoveFirst
+       Do Until rsoCopy.EOF = True
+         If k = rd Then
+           strGroup = strGroup & rsoCopy.Fields!FirstNameField & ", "
+           rsoCopy.Delete
+         End If
+         rsoCopy.MoveNext
+         k = k + 1
+       Loop
+       
+    Next j
+    txtGroups.SetFocus
+    strGroup = vbCrLf & strGroup
+    txtGroups.Text = txtGroups.Text & strGroup
+    strGroup = ""
+   Next i
+      
+   
    
    Set rsoMembers = Nothing
    cntCurrentDB.Close
@@ -314,6 +344,6 @@ Private Sub cmdShowBrothers_Click()
 End Sub
 
 Public Function random(recorCount As Integer) As Integer
-    Randomize
-    random = Int(recorCount * Rnd) + 1
+  Randomize
+  random = Int(recorCount * Rnd) + 1
 End Function

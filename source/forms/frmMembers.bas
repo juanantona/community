@@ -11,10 +11,10 @@ Begin Form
     Width =7370
     DatasheetFontHeight =11
     ItemSuffix =53
-    Left =5910
-    Top =2610
-    Right =13815
-    Bottom =9900
+    Left =3225
+    Top =2415
+    Right =24945
+    Bottom =14565
     DatasheetGridlinesColor =14806254
     RecSrcDt = Begin
         0x60d7bae5dddfe440
@@ -403,6 +403,7 @@ Private Sub cmdShowBrothers_Click()
      For j = 1 To groupMember
        k = 1
        rd = random(rsoCopy.RecordCount)
+       If (rsoCopy.RecordCount = 0) Then Exit For
        rsoCopy.MoveFirst
        Do Until rsoCopy.EOF = True
          If k = rd Then
@@ -420,8 +421,6 @@ Private Sub cmdShowBrothers_Click()
     strGroup = ""
    Next i
       
-   
-   
    Set rsoMembers = Nothing
    cntCurrentDB.Close
 
@@ -433,5 +432,5 @@ Public Function random(recorCount As Integer) As Integer
 End Function
 
 Public Function getNumberOfGroups(totalMembersCount As Integer, membersCountEachGroup As Integer) As Integer
-  getNumberOfGroups = Int(totalMembersCount / membersCountEachGroup)
+  getNumberOfGroups = Round(totalMembersCount / membersCountEachGroup)
 End Function

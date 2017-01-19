@@ -8,13 +8,13 @@ Begin Form
     PictureAlignment =2
     DatasheetGridlinesBehavior =3
     GridY =10
-    Width =7653
+    Width =7370
     DatasheetFontHeight =11
-    ItemSuffix =9
-    Left =4170
-    Top =2520
-    Right =12360
-    Bottom =9660
+    ItemSuffix =53
+    Left =5910
+    Top =2610
+    Right =13815
+    Bottom =9900
     DatasheetGridlinesColor =14806254
     RecSrcDt = Begin
         0x60d7bae5dddfe440
@@ -101,6 +101,42 @@ Begin Form
             GridlineThemeColorIndex =1
             GridlineShade =65.0
         End
+        Begin ListBox
+            AddColon = NotDefault
+            BorderLineStyle =0
+            Height =454
+            LabelX =-1701
+            FontSize =11
+            FontName ="Calibri"
+            AllowValueListEdits =1
+            InheritValueList =1
+            ThemeFontIndex =1
+            BackThemeColorIndex =1
+            BorderThemeColorIndex =1
+            BorderShade =65.0
+            ForeThemeColorIndex =0
+            ForeTint =75.0
+            GridlineThemeColorIndex =1
+            GridlineShade =65.0
+        End
+        Begin ComboBox
+            AddColon = NotDefault
+            BorderLineStyle =0
+            Width =1701
+            LabelX =-1701
+            FontSize =11
+            FontName ="Calibri"
+            AllowValueListEdits =1
+            InheritValueList =1
+            ThemeFontIndex =1
+            BackThemeColorIndex =1
+            BorderThemeColorIndex =1
+            BorderShade =65.0
+            ForeThemeColorIndex =2
+            ForeShade =50.0
+            GridlineThemeColorIndex =1
+            GridlineShade =65.0
+        End
         Begin Subform
             BorderLineStyle =0
             Width =1701
@@ -126,7 +162,7 @@ Begin Form
             GridlineShade =65.0
         End
         Begin FormHeader
-            Height =1134
+            Height =963
             BackColor =15849926
             Name ="EncabezadoDelFormulario"
             AutoHeight =1
@@ -155,7 +191,7 @@ Begin Form
             End
         End
         Begin Section
-            Height =4875
+            Height =6349
             Name ="Detalle"
             AlternateBackColor =15921906
             AlternateBackThemeColorIndex =1
@@ -209,21 +245,21 @@ Begin Form
                 End
                 Begin CommandButton
                     OverlapFlags =85
-                    Left =2267
-                    Top =2381
-                    Width =1984
-                    Height =453
+                    Left =5100
+                    Top =2490
+                    Width =1834
+                    Height =348
                     TabIndex =1
                     ForeColor =4210752
                     Name ="cmdShowBrothers"
-                    Caption ="Ver grupo"
+                    Caption ="Generar grupos"
                     OnClick ="[Event Procedure]"
                     GridlineColor =10921638
 
-                    LayoutCachedLeft =2267
-                    LayoutCachedTop =2381
-                    LayoutCachedWidth =4251
-                    LayoutCachedHeight =2834
+                    LayoutCachedLeft =5100
+                    LayoutCachedTop =2490
+                    LayoutCachedWidth =6934
+                    LayoutCachedHeight =2838
                     BackColor =14136213
                     BorderColor =14136213
                     HoverColor =15060409
@@ -238,25 +274,25 @@ Begin Form
                 Begin TextBox
                     OverlapFlags =85
                     IMESentenceMode =3
-                    Left =1656
-                    Top =3288
-                    Width =5656
-                    Height =1125
+                    Left =1713
+                    Top =3401
+                    Width =5101
+                    Height =2550
                     TabIndex =2
                     BorderColor =10921638
                     ForeColor =4210752
                     Name ="txtGroups"
                     GridlineColor =10921638
 
-                    LayoutCachedLeft =1656
-                    LayoutCachedTop =3288
-                    LayoutCachedWidth =7312
-                    LayoutCachedHeight =4413
+                    LayoutCachedLeft =1713
+                    LayoutCachedTop =3401
+                    LayoutCachedWidth =6814
+                    LayoutCachedHeight =5951
                     Begin
                         Begin Label
                             OverlapFlags =85
-                            Left =396
-                            Top =3288
+                            Left =453
+                            Top =3401
                             Width =705
                             Height =315
                             BorderColor =8355711
@@ -264,17 +300,61 @@ Begin Form
                             Name ="Etiqueta8"
                             Caption ="Grupos"
                             GridlineColor =10921638
+                            LayoutCachedLeft =453
+                            LayoutCachedTop =3401
+                            LayoutCachedWidth =1158
+                            LayoutCachedHeight =3716
+                        End
+                    End
+                End
+                Begin ComboBox
+                    OverlapFlags =85
+                    IMESentenceMode =3
+                    ColumnCount =2
+                    ListWidth =1440
+                    Left =4204
+                    Top =2494
+                    Width =671
+                    Height =315
+                    TabIndex =3
+                    BorderColor =10921638
+                    ForeColor =4138256
+                    ColumnInfo ="\"\";\"\";\"\";\"\";\"4\";\"4\""
+                    Name ="ctrNumbers"
+                    RowSourceType ="Table/Query"
+                    RowSource ="SELECT lstNumbers.Id, lstNumbers.Number FROM lstNumbers ORDER BY lstNumbers.[Id]"
+                        "; "
+                    ColumnWidths ="1441"
+                    GridlineColor =10921638
+
+                    LayoutCachedLeft =4204
+                    LayoutCachedTop =2494
+                    LayoutCachedWidth =4875
+                    LayoutCachedHeight =2809
+                    Begin
+                        Begin Label
+                            OverlapFlags =85
+                            Left =396
+                            Top =2494
+                            Width =3405
+                            Height =320
+                            BorderColor =8355711
+                            ForeColor =8355711
+                            Name ="Número de personas en cada grupo_Etiqueta"
+                            Caption ="Número de personas en cada grupo"
+                            EventProcPrefix ="Número_de_personas_en_cada_grupo_Etiqueta"
+                            GridlineColor =10921638
                             LayoutCachedLeft =396
-                            LayoutCachedTop =3288
-                            LayoutCachedWidth =1101
-                            LayoutCachedHeight =3603
+                            LayoutCachedTop =2494
+                            LayoutCachedWidth =3801
+                            LayoutCachedHeight =2814
                         End
                     End
                 End
             End
         End
         Begin FormFooter
-            Height =1134
+            Height =0
             Name ="PieDelFormulario"
             AutoHeight =1
             AlternateBackThemeColorIndex =1
@@ -310,11 +390,15 @@ Private Sub cmdShowBrothers_Click()
    Dim groupNumber As Integer
    Dim groupMember As Integer
    
-   groupNumber = 2
-   groupMember = 2
+   
+   groupMember = ctrNumbers
+   groupNumber = getNumberOfGroups(rsoCopy.RecordCount, groupMember)
    
    Dim i, j, k, rd As Integer
-      
+   
+   txtGroups.SetFocus
+   txtGroups.Text = ""
+    
    For i = 1 To groupNumber
      For j = 1 To groupMember
        k = 1
@@ -346,4 +430,8 @@ End Sub
 Public Function random(recorCount As Integer) As Integer
   Randomize
   random = Int(recorCount * Rnd) + 1
+End Function
+
+Public Function getNumberOfGroups(totalMembersCount As Integer, membersCountEachGroup As Integer) As Integer
+  getNumberOfGroups = Int(totalMembersCount / membersCountEachGroup)
 End Function

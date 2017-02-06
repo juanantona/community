@@ -8,13 +8,13 @@ Begin Form
     PictureAlignment =2
     DatasheetGridlinesBehavior =3
     GridY =10
-    Width =7370
+    Width =9127
     DatasheetFontHeight =11
     ItemSuffix =53
     Left =3225
     Top =2415
-    Right =24945
-    Bottom =14565
+    Right =12885
+    Bottom =9705
     DatasheetGridlinesColor =14806254
     RecSrcDt = Begin
         0x60d7bae5dddfe440
@@ -200,9 +200,9 @@ Begin Form
             Begin
                 Begin Subform
                     OverlapFlags =85
-                    Left =1695
+                    Left =1770
                     Top =360
-                    Width =5235
+                    Width =6735
                     Height =1695
                     BorderColor =10921638
                     Name ="Secundario0"
@@ -211,9 +211,9 @@ Begin Form
                     BottomPadding =150
                     GridlineColor =10921638
 
-                    LayoutCachedLeft =1695
+                    LayoutCachedLeft =1770
                     LayoutCachedTop =360
-                    LayoutCachedWidth =6930
+                    LayoutCachedWidth =8505
                     LayoutCachedHeight =2055
                     ColumnStart =1
                     ColumnEnd =1
@@ -225,7 +225,7 @@ Begin Form
                             TextAlign =1
                             Left =360
                             Top =360
-                            Width =1275
+                            Width =1350
                             Height =1695
                             BorderColor =8355711
                             ForeColor =8355711
@@ -236,7 +236,7 @@ Begin Form
                             GridlineColor =10921638
                             LayoutCachedLeft =360
                             LayoutCachedTop =360
-                            LayoutCachedWidth =1635
+                            LayoutCachedWidth =1710
                             LayoutCachedHeight =2055
                             LayoutGroup =1
                             GroupTable =1
@@ -245,9 +245,9 @@ Begin Form
                 End
                 Begin CommandButton
                     OverlapFlags =85
-                    Left =5100
-                    Top =2490
-                    Width =1834
+                    Left =5555
+                    Top =2494
+                    Width =2944
                     Height =348
                     TabIndex =1
                     ForeColor =4210752
@@ -256,10 +256,10 @@ Begin Form
                     OnClick ="[Event Procedure]"
                     GridlineColor =10921638
 
-                    LayoutCachedLeft =5100
-                    LayoutCachedTop =2490
-                    LayoutCachedWidth =6934
-                    LayoutCachedHeight =2838
+                    LayoutCachedLeft =5555
+                    LayoutCachedTop =2494
+                    LayoutCachedWidth =8499
+                    LayoutCachedHeight =2842
                     BackColor =14136213
                     BorderColor =14136213
                     HoverColor =15060409
@@ -276,7 +276,7 @@ Begin Form
                     IMESentenceMode =3
                     Left =1713
                     Top =3401
-                    Width =5101
+                    Width =6796
                     Height =2550
                     TabIndex =2
                     BorderColor =10921638
@@ -286,7 +286,7 @@ Begin Form
 
                     LayoutCachedLeft =1713
                     LayoutCachedTop =3401
-                    LayoutCachedWidth =6814
+                    LayoutCachedWidth =8509
                     LayoutCachedHeight =5951
                     Begin
                         Begin Label
@@ -317,6 +317,7 @@ Begin Form
                     Width =671
                     Height =315
                     TabIndex =3
+                    BoundColumn =1
                     BorderColor =10921638
                     ForeColor =4138256
                     ColumnInfo ="\"\";\"\";\"\";\"\";\"4\";\"4\""
@@ -324,7 +325,7 @@ Begin Form
                     RowSourceType ="Table/Query"
                     RowSource ="SELECT lstNumbers.Id, lstNumbers.Number FROM lstNumbers ORDER BY lstNumbers.[Id]"
                         "; "
-                    ColumnWidths ="1441"
+                    ColumnWidths ="0;1442"
                     GridlineColor =10921638
 
                     LayoutCachedLeft =4204
@@ -408,6 +409,7 @@ Private Sub cmdShowBrothers_Click()
        Do Until rsoCopy.EOF = True
          If k = rd Then
            strGroup = strGroup & rsoCopy.Fields!FirstNameField & ", "
+           Debug.Print strGroup
            rsoCopy.Delete
          End If
          rsoCopy.MoveNext
@@ -432,5 +434,13 @@ Public Function random(recorCount As Integer) As Integer
 End Function
 
 Public Function getNumberOfGroups(totalMembersCount As Integer, membersCountEachGroup As Integer) As Integer
-  getNumberOfGroups = Round(totalMembersCount / membersCountEachGroup)
+  Dim numberOfGroups As Double
+  
+  numberOfGroups = totalMembersCount / membersCountEachGroup
+  If Int(numberOfGroups) <> numberOfGroups Then
+    getNumberOfGroups = Round(numberOfGroups) + 1
+  Else
+    getNumberOfGroups = Round(numberOfGroups)
+  End If
+
 End Function

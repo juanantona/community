@@ -13,8 +13,8 @@ Begin Form
     ItemSuffix =53
     Left =3225
     Top =2415
-    Right =24945
-    Bottom =14565
+    Right =12885
+    Bottom =9705
     DatasheetGridlinesColor =14806254
     RecSrcDt = Begin
         0x60d7bae5dddfe440
@@ -380,17 +380,11 @@ Private Sub cmdShowBrothers_Click()
    Set cntCurrentDB = CurrentProject.Connection
    Set rsoMembers = New ADODB.recordset
    rsoMembers.Open "SELECT * FROM lstMembers", cntCurrentDB, adOpenKeyset, adLockOptimistic
-   
-   Dim strm As ADODB.Stream
-   Set strm = New ADODB.Stream
-   rsoMembers.Save strm
-   Dim rsoCopy As ADODB.recordset
-   Set rsoCopy = New ADODB.recordset
-   rsoCopy.Open strm
+  
+   Set rsoCopy = copyRecordset(rsoMembers)
    
    Dim groupNumber As Integer
    Dim groupMember As Integer
-   
    
    groupMember = ctrNumbers
    groupNumber = getNumberOfGroups(rsoCopy.RecordCount, groupMember)
@@ -442,4 +436,13 @@ Public Function getNumberOfGroups(totalMembersCount As Integer, membersCountEach
     getNumberOfGroups = Round(numberOfGroups)
   End If
 
+End Function
+
+Public Function copyRecordset(recordsetBase As ADODB.recordset) As ADODB.recordset
+   Dim strm As ADODB.Stream
+   Set strm = New ADODB.Stream
+   recordsetBase.Save strm
+   
+   Set copyRecordset = New ADODB.recordset
+   copyRecordset.Open strm
 End Function

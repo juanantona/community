@@ -13,8 +13,8 @@ Begin Form
     ItemSuffix =53
     Left =3225
     Top =2415
-    Right =12885
-    Bottom =9705
+    Right =24945
+    Bottom =14565
     DatasheetGridlinesColor =14806254
     RecSrcDt = Begin
         0x60d7bae5dddfe440
@@ -409,7 +409,6 @@ Private Sub cmdShowBrothers_Click()
        Do Until rsoCopy.EOF = True
          If k = rd Then
            strGroup = strGroup & rsoCopy.Fields!FirstNameField & ", "
-           Debug.Print strGroup
            rsoCopy.Delete
          End If
          rsoCopy.MoveNext

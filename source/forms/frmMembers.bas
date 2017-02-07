@@ -251,7 +251,7 @@ Begin Form
                     Height =348
                     TabIndex =1
                     ForeColor =4210752
-                    Name ="cmdShowBrothers"
+                    Name ="cmdGenerateRandomGroups"
                     Caption ="Generar grupos"
                     OnClick ="[Event Procedure]"
                     GridlineColor =10921638
@@ -270,6 +270,7 @@ Begin Form
                     WebImagePaddingTop =2
                     WebImagePaddingRight =1
                     WebImagePaddingBottom =1
+                    Overlaps =1
                 End
                 Begin TextBox
                     OverlapFlags =85
@@ -371,78 +372,94 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Compare Database
 
-Private Sub cmdShowBrothers_Click()
+Private Sub cmdGenerateRandomGroups_Click()
+  
   Dim cntCurrentDB As ADODB.Connection
   Dim rsoMembers As ADODB.recordset
   Dim strGroup As String
+  Dim numberOfMembersEachGroup As Integer
+  Dim numberOfGroups As Integer
+  Dim groupIndex, brotherIndex, randomIndex, memberIndex As Integer
   
   'Instancia conexión a BD actual
    Set cntCurrentDB = CurrentProject.Connection
    Set rsoMembers = New ADODB.recordset
    rsoMembers.Open "SELECT * FROM lstMembers", cntCurrentDB, adOpenKeyset, adLockOptimistic
-  
-   Set rsoCopy = copyRecordset(rsoMembers)
-   
-   Dim groupNumber As Integer
-   Dim groupMember As Integer
-   
-   groupMember = ctrNumbers
-   groupNumber = getNumberOfGroups(rsoCopy.RecordCount, groupMember)
-   
-   Dim i, j, k, rd As Integer
+   Set rsoBrothersCopy = copyRecordset(rsoMembers)
+    
+   numberOfMembersEachGroup = ctrNumbers
+   numberOfGroups = getNumberOfGroups(rsoBrothersCopy.RecordCount, numberOfMembersEachGroup)
    
    txtGroups.SetFocus
    txtGroups.Text = ""
     
-   For i = 1 To groupNumber
-     For j = 1 To groupMember
-       k = 1
-       rd = random(rsoCopy.RecordCount)
-       If (rsoCopy.RecordCount = 0) Then Exit For
-       rsoCopy.MoveFirst
-       Do Until rsoCopy.EOF = True
-         If k = rd Then
-           strGroup = strGroup & rsoCopy.Fields!FirstNameField & ", "
-           rsoCopy.Delete
+   For groupIndex = 1 To numberOfGroups
+     For memberIndex = 1 To numberOfMembersEachGroup
+       brotherIndex = 1
+       randomBrotherIndex = getRandomBrotherIndex(rsoBrothersCopy.RecordCount)
+       
+       If (rsoBrothersCopy.RecordCount = 0) Then Exit For
+       
+       rsoBrothersCopy.MoveFirst
+       Do Until rsoBrothersCopy.EOF = True
+         If brotherIndex = randomBrotherIndex Then
+           strGroup = buildGroup(strGroup, rsoBrothersCopy.Fields!FirstNameField, memberIndex, numberOfMembersEachGroup, rsoBrothersCopy.RecordCount)
+           rsoBrothersCopy.Delete
          End If
-         rsoCopy.MoveNext
-         k = k + 1
+         rsoBrothersCopy.MoveNext
+         brotherIndex = brotherIndex + 1
        Loop
        
-    Next j
-    txtGroups.SetFocus
-    strGroup = vbCrLf & strGroup
-    txtGroups.Text = txtGroups.Text & strGroup
-    strGroup = ""
-   Next i
+     Next memberIndex
+    
+     txtGroups.SetFocus
+     strGroup = vbCrLf & strGroup
+     txtGroups.Text = txtGroups.Text & strGroup
+     strGroup = ""
+   
+   Next groupIndex
       
    Set rsoMembers = Nothing
    cntCurrentDB.Close
 
 End Sub
 
-Public Function random(recorCount As Integer) As Integer
+Public Function getRandomBrotherIndex(recorCount As Integer) As Integer
   Randomize
-  random = Int(recorCount * Rnd) + 1
+  getRandomBrotherIndex = Int(recorCount * Rnd) + 1
 End Function
 
-Public Function getNumberOfGroups(totalMembersCount As Integer, membersCountEachGroup As Integer) As Integer
+Public Function getNumberOfGroups(totalMembersCount As Integer, numberOfMembersEachGroup As Integer) As Integer
   Dim numberOfGroups As Double
   
-  numberOfGroups = totalMembersCount / membersCountEachGroup
+  numberOfGroups = totalMembersCount / numberOfMembersEachGroup
   If Int(numberOfGroups) <> numberOfGroups Then
     getNumberOfGroups = Round(numberOfGroups) + 1
   Else
     getNumberOfGroups = Round(numberOfGroups)
   End If
-
 End Function
 
-Public Function copyRecordset(recordsetBase As ADODB.recordset) As ADODB.recordset
+Public Function copyRecordset(recordsetMembers As ADODB.recordset) As ADODB.recordset
    Dim strm As ADODB.Stream
    Set strm = New ADODB.Stream
-   recordsetBase.Save strm
+   recordsetMembers.Save strm
    
    Set copyRecordset = New ADODB.recordset
    copyRecordset.Open strm
+End Function
+
+Public Function buildGroup(strGroup As String, name As String, memberIndex As Integer, numberOfMembersEachGroup As Integer, rsoBrothersCopyCount As Integer) As String
+  strGroup = strGroup & name
+  
+  If isLastMemberORLastBrother(memberIndex, numberOfMembersEachGroup, rsoBrothersCopyCount) Then
+    strGroup = strGroup & "."
+  Else
+    strGroup = strGroup & ", "
+  End If
+  buildGroup = strGroup
+End Function
+
+Public Function isLastMemberORLastBrother(memberIndex As Integer, numberOfMembersEachGroup As Integer, rsoBrothersCopy As Integer) As Boolean
+  isLastMemberORLastBrother = (memberIndex = numberOfMembersEachGroup) Or (rsoBrothersCopy = 1)
 End Function
